@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # hemingway
 
 A new Flutter project.
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# HemingWay
+>>>>>>> a7b00d9c037da81aac0960b3b10af67e756a05f0
