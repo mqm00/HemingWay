@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'request_screen.dart';
 
 class ExpertInformation extends StatefulWidget {
   const ExpertInformation({Key? key}) : super(key: key);
@@ -20,8 +21,11 @@ class _ExpertInformationState extends State<ExpertInformation> {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Stack(
-        //층층이 쌓이는 형태이므로
+      body: //SingleChildScrollView(
+          //stack widget 바꾸기
+          //child:
+          Stack(
+        //층층이 쌓이는 형태이므로 -> stack은 겹치는 게 필요할 때 사용하는 위젯, 잘못됐다.
         children: [
           Positioned(
             //원하는 곳에 위젯을 배치할 수 있게 해주는 위젯
@@ -136,20 +140,53 @@ class _ExpertInformationState extends State<ExpertInformation> {
             ),
           ), //중간 선 그리기
           Positioned(
-              top: 260,
-              left: 30,
-              child: Container(
-                //cloumn singlechildscrollview로 
+            top: 260,
+            left: 30,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 280,
+              //cloumn singlechildscrollview로
+              child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
+                            child: Icon(Icons.calculate),
+                          ),
+                          TextSpan(
+                            text: ' 해당 분야 평균 가격',
+                            style: TextStyle(
+                                fontSize: 21,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text: '1,500,000원',
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
                     //RichText 컨테이너에 넣어보고 싶음
                     RichText(
                       text: TextSpan(
                         children: [
                           WidgetSpan(
                             child: Icon(Icons.language),
-                            style: Border
                           ),
                           TextSpan(
                             text: ' 전문 분야',
@@ -167,7 +204,7 @@ class _ExpertInformationState extends State<ExpertInformation> {
                     ),
                     RichText(
                       text: TextSpan(
-                        text: '웹 프로그래밍',
+                        text: '앱 개발',
                         style: TextStyle(
                           fontSize: 17,
                           color: Colors.black,
@@ -199,7 +236,7 @@ class _ExpertInformationState extends State<ExpertInformation> {
                     ),
                     RichText(
                       text: TextSpan(
-                        text: 'HTML, CSS',
+                        text: 'Java, Flutter, Swift',
                         style: TextStyle(
                           fontSize: 17,
                           color: Colors.black,
@@ -264,10 +301,86 @@ class _ExpertInformationState extends State<ExpertInformation> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
+                            child: Icon(Icons.school),
+                          ),
+                          TextSpan(
+                            text: ' 한양대학교',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
+                            child: Icon(Icons.schedule),
+                          ),
+                          TextSpan(
+                            text: ' 17년',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
+                            child: Icon(Icons.place),
+                          ),
+                          TextSpan(
+                            text: '서울 성동구, 종로구',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ), //상세 정보
+            ),
+          ), //상세 정보
+          Positioned(
+            right: MediaQuery.of(context).size.width-411,
+            top: MediaQuery.of(context).size.height-131,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => RequestPaper()));
+              },
+              child: Text('의뢰하기', style: TextStyle(fontSize: 15, letterSpacing: 1.0),),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.indigoAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                elevation: 1.0,
+                minimumSize: Size(300, 50),
+              ),
+            ),
+          ),
         ],
       ),
     );
