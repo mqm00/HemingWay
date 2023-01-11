@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:csv/csv.dart';
-import 'package:heming_way/loading_screen.dart';
+import 'loading_screen.dart';
+
 
 class choose_location extends StatelessWidget {
 
@@ -217,7 +218,7 @@ class _getLocation extends State<getLocation>{
                   child: Container(
                     height: 40,
                     width: 200,
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       child: const Text('다음'),
                       onPressed: () {
                         if(_selectedSido == '시/도 선택'){

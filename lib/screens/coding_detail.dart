@@ -1,8 +1,6 @@
 import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'choose_location.dart';
 
 class Coding1 extends StatelessWidget {
@@ -96,7 +94,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
                 child: Container(
                   height: 40,
                   width: 200,
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     child: Text('다음'),
                     onPressed: () {
                       if(checkBoxList.any((x) => x.value)){ //하나라도 체크된 게 있으면 페이지 넘어감
