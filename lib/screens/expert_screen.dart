@@ -144,7 +144,7 @@ class _ExpertInformationState extends State<ExpertInformation> {
             left: 30,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: 280,
+              height: MediaQuery.of(context).size.height*0.43,
               //cloumn singlechildscrollview로
               child: SingleChildScrollView(
                 child: Column(
@@ -365,7 +365,7 @@ class _ExpertInformationState extends State<ExpertInformation> {
           ), //상세 정보
           Positioned(
             right: MediaQuery.of(context).size.width-411,
-            top: MediaQuery.of(context).size.height-131,
+            top: MediaQuery.of(context).size.height*0.81,
             child: ElevatedButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => RequestPaper()));
@@ -374,10 +374,10 @@ class _ExpertInformationState extends State<ExpertInformation> {
               style: ElevatedButton.styleFrom(
                 primary: Colors.indigoAccent,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
+                  //borderRadius: BorderRadius.circular(.0),
                 ),
                 elevation: 1.0,
-                minimumSize: Size(300, 50),
+                minimumSize: Size(MediaQuery.of(context).size.width, 50),
               ),
             ),
           ),
