@@ -81,7 +81,7 @@ class _loading_screen extends State<Loading_screen>{
                                   backgroundColor: MaterialStateProperty.all(Colors.grey[300])
                               ),
                               onPressed: () {
-                                Navigator.push(context, CupertinoPageRoute(builder:(context) => LoadingScreen()));
+                                // Navigator.push(context, CupertinoPageRoute(builder:(context) => LoadingScreen()));
                               },
                             ),
                           )]
