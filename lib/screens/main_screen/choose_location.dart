@@ -45,7 +45,7 @@ class _getLocation extends State<getLocation>{
   }
 
   // 시군구 리스트
-  final List<String> _sidoGubun = ["시/도 선택","서울특별시","인천광역시","대전광역시","광주광역시","대구광역시","울산광역시","부산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주도"];
+  final List<String> _sidoList = ["시/도 선택","서울특별시","인천광역시","대전광역시","광주광역시","대구광역시","울산광역시","부산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주도"];
   final List<String> _seoul = ["구/군 선택","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
   final List<String> _incheon = ["구/군 선택","계양구","남구","남동구","동구","부평구","서구","연수구","중구","강화군","옹진군"];
   final List<String> _daejoen = ["구/군 선택","대덕구","동구","서구","유성구","중구"];
@@ -65,31 +65,31 @@ class _getLocation extends State<getLocation>{
 
   String _selectedSido = '시/도 선택';
   String _selectedGuGun = '구/군 선택';
-  List<String> _selectedGuGunList = [];
+  List<String> _GuGunList = [];
   //String? _address;
 
-  Widget _makeGuGunSelector(String sido) { //구군 드롭다운 아이템 만들기
-    if (sido == '서울특별시') { _selectedGuGunList = _seoul; }
-    else if (sido == '인천광역시') { _selectedGuGunList = _incheon; }
-    else if (sido == '대전광역시') { _selectedGuGunList = _daejoen; }
-    else if (sido == '광주광역시') { _selectedGuGunList = _gwangju; }
-    else if (sido == '대구광역시') { _selectedGuGunList = _daegu; }
-    else if (sido == '울산광역시') { _selectedGuGunList = _ulsan; }
-    else if (sido == '부산광역시') { _selectedGuGunList = _busan; }
-    else if (sido == '경기도') { _selectedGuGunList = _gyeonggi; }
-    else if (sido == '강원도') { _selectedGuGunList = _gangwon; }
-    else if (sido == '충청북도') { _selectedGuGunList = _chungbuk; }
-    else if (sido == '충청남도') { _selectedGuGunList = _chungnam; }
-    else if (sido == '전라북도') { _selectedGuGunList = _jeonbuk; }
-    else if (sido == '전라남도') { _selectedGuGunList = _jeonnam; }
-    else if (sido == '경상북도') { _selectedGuGunList = _gyeongbuk; }
-    else if (sido == '경상남도') { _selectedGuGunList = _gyeongnam; }
-    else if (sido == '제주도') { _selectedGuGunList = _jeju; }
-    else { _selectedGuGunList = ['구/군 선택']; }
+  Widget _GuGunSelect(String sido) { //구군 드롭다운 아이템 만들기
+    if (sido == '서울특별시') { _GuGunList = _seoul; }
+    else if (sido == '인천광역시') { _GuGunList = _incheon; }
+    else if (sido == '대전광역시') { _GuGunList = _daejoen; }
+    else if (sido == '광주광역시') { _GuGunList = _gwangju; }
+    else if (sido == '대구광역시') { _GuGunList = _daegu; }
+    else if (sido == '울산광역시') { _GuGunList = _ulsan; }
+    else if (sido == '부산광역시') { _GuGunList = _busan; }
+    else if (sido == '경기도') { _GuGunList = _gyeonggi; }
+    else if (sido == '강원도') { _GuGunList = _gangwon; }
+    else if (sido == '충청북도') { _GuGunList = _chungbuk; }
+    else if (sido == '충청남도') { _GuGunList = _chungnam; }
+    else if (sido == '전라북도') { _GuGunList = _jeonbuk; }
+    else if (sido == '전라남도') { _GuGunList = _jeonnam; }
+    else if (sido == '경상북도') { _GuGunList = _gyeongbuk; }
+    else if (sido == '경상남도') { _GuGunList = _gyeongnam; }
+    else if (sido == '제주도') { _GuGunList = _jeju; }
+    else { _GuGunList = ['구/군 선택']; }
     return DropdownButton<String>(
       isExpanded: true,
       value: _selectedGuGun,
-      items: _selectedGuGunList.map((value) {
+      items: _GuGunList.map((value) {
         return DropdownMenuItem(
           value: value,
           child: Text(value),
@@ -119,6 +119,9 @@ class _getLocation extends State<getLocation>{
   @override
   Widget build(BuildContext context) {
 
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     String local = location();
 
     return Scaffold(
@@ -130,7 +133,9 @@ class _getLocation extends State<getLocation>{
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
               children:[
-            Padding(padding: EdgeInsets.fromLTRB(10,40, 0,0),
+            SizedBox(
+              width: width*0.2,
+              height: height*0.15,
               child:
               IconButton(
                 onPressed: () {
@@ -140,28 +145,31 @@ class _getLocation extends State<getLocation>{
             )]),
         Row(
             children:
-            [Padding(padding: EdgeInsets.fromLTRB(25,10.0, 0, 30),
+            [Padding(padding: EdgeInsets.only(left:width*0.07),
               child: Text('지역을 선택해주세요',
-                style: TextStyle(fontSize: 20),),
+                style: TextStyle(fontSize: height*0.035),),
             )]),
 
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
+
               children: [
+                Padding(padding: EdgeInsets.only(top:height*0.08)),
 
                 Text('시/도 를 선택해주세요',
-                  style: TextStyle(fontSize: 15),),
+                  style: TextStyle(fontSize: height*0.025),),
 
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 5, 0, 20),
-                  width: 200,
-                  height: 60,
-            child:
+                    margin: EdgeInsets.fromLTRB(0, height*0.02, 0, height*0.05),
+                  width: width * 0.8,
+                  height: height*0.08,
+
+                    child:
                 DropdownButton(
                   isExpanded: true,
                     value: _selectedSido,
-                    items: _sidoGubun.map((value){
+                    items: _sidoList.map((value){
                       return DropdownMenuItem(
                         value: value,
                           child: Text(value));
@@ -175,33 +183,31 @@ class _getLocation extends State<getLocation>{
                 )
                 ),
                 Text('구/군을 선택해주세요',
-                  style: TextStyle(fontSize: 15),),
+                  style: TextStyle(fontSize: height*0.025),),
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 5, 0, 30),
-                  width: 200,
-                  height: 50,
+                  margin: EdgeInsets.fromLTRB(0, height*0.02, 0, height*0.05),
+                  width: width * 0.8,
+                  height: height*0.08,
                   child:
-                  _makeGuGunSelector(_selectedSido),
+                  _GuGunSelect(_selectedSido),
                 ),
 
-                Text('선택하신 지역', style: TextStyle(fontSize: 15)),
+                Text('선택하신 지역', style: TextStyle(fontSize: height*0.025)),
 
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 5, 0, 20),
-                  width: 200,
-                  height: 50,
+                    margin: EdgeInsets.fromLTRB(0, height*0.02, 0, height*0.05),
+                    width: width * 0.8,
+                    height: height*0.08,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.black45)),
                   child:
                     Padding(
-                      padding: EdgeInsets.all(9),
+                      padding: EdgeInsets.all(height*0.02),
                       child:
                         Text(local,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 16
-                          ),)
+                          style: TextStyle(fontSize: height*0.025),)
                     )
                 )
 
@@ -214,12 +220,15 @@ class _getLocation extends State<getLocation>{
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children:
                 [Padding(
-                  padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, height*0.015, 0, height*0.05),
                   child: Container(
-                    height: 40,
-                    width: 200,
+                    height: height * 0.06,
+                    width: width * 0.6,
                     child: ElevatedButton(
-                      child: const Text('다음'),
+                      child: Text('다음', style: TextStyle(fontSize: height*0.02, color: Colors.black)),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.grey[300])
+                      ),
                       onPressed: () {
                         if(_selectedSido == '시/도 선택'){
                           _showAlert(title: "지역 선택 안함", message: "시/도를 선택해주세요");
@@ -230,9 +239,9 @@ class _getLocation extends State<getLocation>{
                         else{
                           // String sido = '';
                           // String gugun = '';
-                        Navigator.push(context, CupertinoPageRoute(builder:(context) => LoadingScreen()));
-                      }
-                        },
+                          Navigator.push(context, CupertinoPageRoute(builder:(context) => LoadingScreen()));
+                        }
+                      },
                     ),
                   ),
                 )
