@@ -119,6 +119,9 @@ class _getLocation extends State<getLocation>{
   @override
   Widget build(BuildContext context) {
 
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     String local = location();
 
     return Scaffold(
@@ -130,7 +133,9 @@ class _getLocation extends State<getLocation>{
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
               children:[
-            Padding(padding: EdgeInsets.fromLTRB(10,40, 0,0),
+            Container(
+              width: width*0.2,
+              height: height*0.15,
               child:
               IconButton(
                 onPressed: () {
@@ -140,24 +145,27 @@ class _getLocation extends State<getLocation>{
             )]),
         Row(
             children:
-            [Padding(padding: EdgeInsets.fromLTRB(25,10.0, 0, 30),
+            [Padding(padding: EdgeInsets.only(left:width*0.07),
               child: Text('지역을 선택해주세요',
-                style: TextStyle(fontSize: 20),),
+                style: TextStyle(fontSize: height*0.035),),
             )]),
 
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
+
               children: [
+                Padding(padding: EdgeInsets.only(top:height*0.08)),
 
                 Text('시/도 를 선택해주세요',
-                  style: TextStyle(fontSize: 15),),
+                  style: TextStyle(fontSize: height*0.025),),
 
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 5, 0, 20),
-                  width: 200,
-                  height: 60,
-            child:
+                    margin: EdgeInsets.fromLTRB(0, height*0.02, 0, height*0.05),
+                  width: width * 0.8,
+                  height: height*0.08,
+
+                    child:
                 DropdownButton(
                   isExpanded: true,
                     value: _selectedSido,
@@ -175,33 +183,31 @@ class _getLocation extends State<getLocation>{
                 )
                 ),
                 Text('구/군을 선택해주세요',
-                  style: TextStyle(fontSize: 15),),
+                  style: TextStyle(fontSize: height*0.025),),
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 5, 0, 30),
-                  width: 200,
-                  height: 50,
+                  margin: EdgeInsets.fromLTRB(0, height*0.02, 0, height*0.05),
+                  width: width * 0.8,
+                  height: height*0.08,
                   child:
                   _makeGuGunSelector(_selectedSido),
                 ),
 
-                Text('선택하신 지역', style: TextStyle(fontSize: 15)),
+                Text('선택하신 지역', style: TextStyle(fontSize: height*0.025)),
 
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 5, 0, 20),
-                  width: 200,
-                  height: 50,
+                    margin: EdgeInsets.fromLTRB(0, height*0.02, 0, height*0.05),
+                    width: width * 0.8,
+                    height: height*0.08,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.black45)),
                   child:
                     Padding(
-                      padding: EdgeInsets.all(9),
+                      padding: EdgeInsets.all(height*0.02),
                       child:
                         Text(local,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 16
-                          ),)
+                          style: TextStyle(fontSize: height*0.025),)
                     )
                 )
 
@@ -214,12 +220,15 @@ class _getLocation extends State<getLocation>{
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children:
                 [Padding(
-                  padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, height*0.015, 0, height*0.05),
                   child: Container(
-                    height: 40,
-                    width: 200,
+                    height: height * 0.06,
+                    width: width * 0.6,
                     child: ElevatedButton(
-                      child: const Text('다음'),
+                      child: Text('다음', style: TextStyle(fontSize: height*0.02, color: Colors.black)),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.grey[300])
+                      ),
                       onPressed: () {
                         if(_selectedSido == '시/도 선택'){
                           _showAlert(title: "지역 선택 안함", message: "시/도를 선택해주세요");
@@ -230,9 +239,9 @@ class _getLocation extends State<getLocation>{
                         else{
                           // String sido = '';
                           // String gugun = '';
-                        Navigator.push(context, CupertinoPageRoute(builder:(context) => LoadingScreen()));
-                      }
-                        },
+                          Navigator.push(context, CupertinoPageRoute(builder:(context) => LoadingScreen()));
+                        }
+                      },
                     ),
                   ),
                 )

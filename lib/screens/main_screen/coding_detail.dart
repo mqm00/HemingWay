@@ -1,6 +1,6 @@
-import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'choose_location.dart';
 
 class Coding1 extends StatelessWidget {
@@ -29,7 +29,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
   //List<String> SubjectList = ['C','C++','C#','Java','Python'];
 
 
-  final checkBoxList = [
+  final List <CheckBoxModel> checkBoxList = [
     CheckBoxModel(title: 'C'),
     CheckBoxModel(title: 'C++'),
     CheckBoxModel(title: 'C#'),
@@ -57,82 +57,93 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
 
   @override
   void initState() {
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return SafeArea(child:
-    CupertinoPageScaffold(
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return ScreenUtilInit(
+      designSize: Size(360,640),
+
+        builder: (BuildContext context, Widget? child)
+        { return CupertinoPageScaffold(
       child:
       Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(padding: EdgeInsets.fromLTRB(10,20.0, 0, 10),
+          Container(
+            width: width*0.2,
+            height: height*0.15,
             child:
             IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.of(context, rootNavigator: true).pop(context);
               },
               icon: const Icon(Icons.arrow_back_ios_new_sharp),color: Colors.black,),
           ),
-          const Padding(padding: EdgeInsets.fromLTRB(25,10.0, 0, 20),
+         Padding(padding: EdgeInsets.only(left:width*0.07, bottom:width*0.07),
             child: Text('어떤 과목을 찾으시나요?',
-              style: TextStyle(fontSize: 20),),
+              style: TextStyle(fontSize: height*0.035),),
           ),
 
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: checkBoxList.map(buildACheckBox).toList(),
+        ),
 
-           ...checkBoxList.map(buildACheckBox).toList(),
-
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:
-              [Padding(
-                padding: EdgeInsets.fromLTRB(0,60, 0, 50),
-                child: Container(
-                  height: 40,
-                  width: 200,
+              Align(
+                alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(0, 50.h, 0, 10.h),
+                  child: SizedBox(
+                    height: height * 0.06,
+                    width: width * 0.6,
                   child: ElevatedButton(
-                    child: Text('다음'),
-                    onPressed: () {
-                      if(checkBoxList.any((x) => x.value)){ //하나라도 체크된 게 있으면 페이지 넘어감
-                        Navigator.push(context, CupertinoPageRoute(builder:(context) => choose_location()),);
-                      }
-                      else{ // 없으면 alert 띄움
-                        _showAlert(title: "선택사항 없음", message: "최소 1개 이상을 선택해주세요");
-                      }
-
-                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.grey[300])
+                    ),
+                    onPressed: () {if(checkBoxList.any((x) => x.value)){ //하나라도 체크된 게 있으면 페이지 넘어감
+                      Navigator.push(context, CupertinoPageRoute(builder:(context) => choose_location()),);
+                    }
+                    else{ // 없으면 alert 띄움
+                      _showAlert(title: "선택사항 없음", message: "최소 1개 이상을 선택해주세요");
+                    }},
+                    child: const Text('다음', style: TextStyle(color: Colors.black)),
                   ),
                 ),
               )
-              ]
-          )
+        )
         ],
       ),
-    ));
+    );
+        }
+        );
   }
 
-  Widget buildACheckBox(CheckBoxModel checkBox) => CheckboxListTile(
-    controlAffinity: ListTileControlAffinity.leading,
-    activeColor: Colors.black45,
-    value: checkBox.value,
-    title: Text(
-      checkBox.title,
-      style: const TextStyle(fontSize: 15),
-    ),
-    onChanged: (value) => setState(() {
-      // if (value!){
-      //   selected_list.insert(SubjectList.indexOf(checkBox.title), checkBox.title);
-      // }
-      // else{
-      //   selected_list[SubjectList.indexOf(checkBox.title)] = '';
-      // }
-      checkBox.value = value!;
-    }),
-  );
+  Widget buildACheckBox(CheckBoxModel checkBox) {
+    return Transform.scale(
+      scale: 1.05,
+        child: CheckboxListTile(
+          contentPadding: EdgeInsets.fromLTRB(50.w, 10.h, 55.w, 0),
+          controlAffinity: ListTileControlAffinity.trailing,
+          activeColor: Colors.black45,
+          value: checkBox.value,
+      title: Text(
+        checkBox.title,
+        style: TextStyle(fontSize: 20.h),
+      ),
+      onChanged: (value) =>
+          setState(() {
+            checkBox.value = value!;
+          }),
+    ));
+  }
 }
 
 class CheckBoxModel { //체크박스 각각 하나의 클래스

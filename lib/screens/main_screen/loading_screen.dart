@@ -28,40 +28,63 @@ class _loading_screen extends State<Loading_screen>{
 
   @override
   Widget build(BuildContext context) {
+
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return CupertinoPageScaffold(
         child:
-            Stack(
+            Column(
                 children:
                 [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child:
-                  Padding(padding: EdgeInsets.fromLTRB(10,40.0, 0,0),
+                Row(
+                  children:
+                  [
+                    Container(
+                    width: width*0.2,
+                    height: height*0.15,
                     child:
                     IconButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
                       icon: const Icon(Icons.arrow_back_ios_new_sharp),color: Colors.black,),
-                  )),
+                  )]),
 
-                  Align(
-                    alignment: Alignment.center,
-                    child:
-                        Column(
+                  Center(
+                      child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children:
                           [
-                            SpinKitChasingDots(
+                            Container(
+                                padding: EdgeInsets.only(top: height*0.1),
+                            child: SpinKitChasingDots(
                           color: Colors.black45,
-                              size: 100,
-                        ),
-                            Padding(padding: EdgeInsets.all(30)),
-                            Text('이 분야의 시간당 평균 가격은 얼마입니다.', )
-                          ],
-                        )
+                              size: height*0.2,
+                        )),
+                            Container(
+                              padding: EdgeInsets.only(top: height*0.1, bottom: height*0.1),
+                                child: Text('이 분야의 시간당 평균 가격은 얼마입니다.',style: TextStyle(fontSize: height*0.02 ))
+                            ),
+                          ],  )),
 
+                 Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [Container(
+                            width: width*0.6,
+                            height: height*0.06,
+                            child: ElevatedButton(
+                              child: Text('다음', style: TextStyle(color: Colors.black)),
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(Colors.grey[300])
+                              ),
+                              onPressed: () {
+                                Navigator.push(context, CupertinoPageRoute(builder:(context) => LoadingScreen()));
+                              },
+                            ),
+                          )]
                     ),
 ]
     )
@@ -72,4 +95,5 @@ class _loading_screen extends State<Loading_screen>{
 }
 
 //TODO db에서 평균 가격 알아오기
+//TODO 다음 버튼으로 전문가 리스트 (유민언니 화면) 넘어가기
 
