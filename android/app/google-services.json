@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "287124774678",
+    "project_id": "hemingway-705f5",
+    "storage_bucket": "hemingway-705f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287124774678:android:a4f8e1102fd1866444ba37",
+        "android_client_info": {
+          "package_name": "com.example.hemingway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "287124774678-2vt8msc9qhhj41tc1lqsonohf2a7bf5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBE4FVEEwOlKA_c9ExBmrshHnD_h9OPog0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "287124774678-2vt8msc9qhhj41tc1lqsonohf2a7bf5r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
