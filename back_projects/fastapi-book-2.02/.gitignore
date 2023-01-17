@@ -1,5 +1,0 @@
-.idea
-myapi.db
-*.pyc
-__pycache__
-migrations/versions/*
