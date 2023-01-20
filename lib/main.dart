@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'screens/main_screen/main_screen.dart';
 import 'package:hemingway/screens/expert_screen/expert_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,8 +11,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // MobileAds.instance.initialize();
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+
+  runApp(MyApp2());
 }
 
 class MyApp extends StatelessWidget {

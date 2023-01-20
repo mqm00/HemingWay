@@ -85,7 +85,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
               onPressed: () {
                 Navigator.of(context, rootNavigator: true).pop(context);
               },
-              icon: const Icon(Icons.arrow_back_ios_new_sharp),color: Colors.black,),
+              icon: const Icon(Icons.arrow_back_outlined),color: Colors.black,),
           ),
          Padding(padding: EdgeInsets.only(left:width*0.07, bottom:width*0.07),
             child: Text('어떤 과목을 찾으시나요?',

@@ -98,14 +98,14 @@ class _getLocation extends State<getLocation>{
       onChanged: (value) {
         setState(() {
           _selectedGuGun = value!;
-          print('selected $sido $_selectedGuGun');
+          // print('selected $sido $_selectedGuGun');
         });
       },
     );
   }
 
   String location (){ //전체 주소를 string으로 리턴하는 함수
-    print('함수 실행');
+
     String local;
 
     if (_selectedSido != '시/도 선택' && _selectedGuGun != '구/군 선택'){
@@ -141,7 +141,7 @@ class _getLocation extends State<getLocation>{
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop(context);
                 },
-                icon: const Icon(Icons.arrow_back_ios_new_sharp),color: Colors.black,),
+                icon: const Icon(Icons.arrow_back),color: Colors.black,),
             )]),
         Row(
             children:
