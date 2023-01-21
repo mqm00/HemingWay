@@ -310,26 +310,12 @@ class MainWidget extends StatelessWidget {
                 //     )
                 // ),
 
-                CupertinoButton(
-                  //borderRadius: BorderRadius.all(Radius.circular(10)),
-                    onPressed: () {},
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.fromLTRB(width*0.05,0,width*0.05,0),
-                          height: height*0.15,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.grey
-                          ),
-                        ),
-                        Text('뭐지',
-                          style: TextStyle(
-                              fontSize: height * 0.02,
-                              color: Colors.black),)
-                      ],
-                    )
-                ),
+                Container(
+                    height: height * 0.1,
+                    padding: EdgeInsets.fromLTRB(width * 0.05, height * 0.02, 0, 0),
+                  child:
+                    Text('오늘의 추천', style: TextStyle(fontSize: height * 0.1*0.27, fontWeight: FontWeight.bold),)
+                )
 
               ],
             ),
