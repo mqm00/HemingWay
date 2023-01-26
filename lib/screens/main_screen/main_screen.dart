@@ -1,22 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'coding_detail.dart';
+import 'package:flutter/foundation.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-// void main() {
-//   runApp(MyApp());
-// }
-
-// final String iosTestId = 'ca-app-pub-3940256099942544/2934735716';
-//
-// BannerAd? banner;
+//테스트 앱/배너 아이디
+const Map<String, String> UNIT_ID = kReleaseMode
+    ? {
+  'ios': '[YOUR iOS AD UNIT ID]',
+  'android': '[YOUR ANDROID AD UNIT ID]',
+}
+    : {
+  'ios': 'ca-app-pub-3940256099942544/2934735716',
+  'android': 'ca-app-pub-3940256099942544/2934735716',
+};
 
 class MyApp2 extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false, //remove debug expression
       home: MainWidget(),
     );
@@ -27,40 +33,42 @@ class MainWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // TargetPlatform os = Theme.of(context).platform;
-    //
-    // BannerAd banner = BannerAd(
-    //   listener: BannerAdListener(
-    //     onAdFailedToLoad: (Ad ad, LoadAdError error) {},
-    //     onAdLoaded: (_) {},
-    //   ),
-    //   size: AdSize.banner,
-    //   adUnitId: iosTestId,
-    //   request: AdRequest(),
-    // )..load();
+    TargetPlatform os = Theme.of(context).platform;
+
+    BannerAd banner = BannerAd(
+      listener: BannerAdListener(
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {},
+        onAdLoaded: (_) {},
+      ),
+      size: AdSize.fullBanner,
+      adUnitId: UNIT_ID[os == TargetPlatform.iOS ? 'ios' : 'android']!,
+      request: AdRequest(),
+    )..load();
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return CupertinoPageScaffold(
-      // navigationBar: const CupertinoNavigationBar(
-      //   backgroundColor: Colors.transparent,
-      // ),
-            child:
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('HemingWay', style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
+        elevation: 0.5,
+      ),
+            body:
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(25, 60, 0, 0),
-                height: height*0.2,
-                child: Align(
-                  alignment: Alignment.topLeft,
-                    child: Text('안녕하세요\n어떤 일이 필요하신가요?',
-                        style: TextStyle(/*fontFamily: 'SCDream',*/
-                            fontSize: height*0.035)))),
+                   margin: EdgeInsets.fromLTRB(width * 0.05, height * 0.02, 0, 0),
+                  height: height * 0.11,
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                      child: Text('안녕하세요!\n어떤 일을 의뢰하실건가요?',
+                          style: TextStyle(/*fontFamily: 'SCDream',*/
+                              fontSize: height * 0.1*0.30, fontWeight: FontWeight.bold)))),
                 Container(
-                  height: height*0.16,
+                  height: height*0.15,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -71,7 +79,7 @@ class MainWidget extends StatelessWidget {
                           children: [
                             Container(
                               width: width*0.15,
-                              height: height*0.08,
+                              height: height*0.07,
                               decoration: const BoxDecoration(
                                 image:
                                 DecorationImage(
@@ -98,7 +106,7 @@ class MainWidget extends StatelessWidget {
                           children: [
                             Container(
                               width: width*0.15,
-                              height: height*0.08,
+                              height: height*0.07,
                               decoration:  const BoxDecoration(
                                 image:
                                 DecorationImage(
@@ -120,7 +128,7 @@ class MainWidget extends StatelessWidget {
                         child: Column(
                           children: [Container(
                             width: width*0.15,
-                            height: height*0.08,
+                            height: height*0.07,
                             decoration:  const BoxDecoration(
                               image:
                               DecorationImage(
@@ -144,7 +152,7 @@ class MainWidget extends StatelessWidget {
                         Column(
                           children: [Container(
                             width: width*0.15,
-                            height: height*0.08,
+                            height: height*0.07,
                             decoration:  const BoxDecoration(
                               image:
                               DecorationImage(
@@ -173,7 +181,7 @@ class MainWidget extends StatelessWidget {
                         child: Column(
                           children: [Container(
                             width: width*0.15,
-                            height: height*0.08,
+                            height: height*0.07,
                             decoration:  const BoxDecoration(
                               image:
                               DecorationImage(
@@ -195,7 +203,7 @@ class MainWidget extends StatelessWidget {
                           children: [
                             Container(
                               width: width*0.15,
-                              height: height*0.08,
+                              height: height*0.07,
                               decoration:  const BoxDecoration(
                                 image:
                                 DecorationImage(
@@ -217,7 +225,7 @@ class MainWidget extends StatelessWidget {
                         child: Column(
                           children: [Container(
                             width: width*0.15,
-                            height: height*0.08,
+                            height: height*0.07,
                             decoration:  const BoxDecoration(
                               image:
                               DecorationImage(
@@ -239,13 +247,15 @@ class MainWidget extends StatelessWidget {
                         child: Column(
                           children: [Container(
                             width: width*0.15,
-                            height: height*0.08,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.grey
+                            height: height*0.07,
+                            decoration:  const BoxDecoration(
+                              image:
+                              DecorationImage(
+                                image: AssetImage('assets/plussign_emoji.png'),
+                              ),
                             ),
                           ),
-                            Text('뭐지',
+                            Text('기타',
                               style: TextStyle(
                                   fontSize: height * 0.02,
                                   color: Colors.black),)
@@ -256,52 +266,81 @@ class MainWidget extends StatelessWidget {
                 ),
                 ),
 
-                CupertinoButton(
-                  //borderRadius: BorderRadius.all(Radius.circular(10)),
-                    onPressed: () {},
-                    child: Column(
-                      children: [
-                        Container(
-                        margin: EdgeInsets.fromLTRB(20,0,20,0),
-                        width: width*0.8,
-                          height: height*0.15,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey
-                        ),
+                Column(
+                  children: [
+                    Container(
+
+                      height: height * 0.1,
+
+                      child: AdWidget(
+                        ad: banner,
                       ),
-                        Text('뭐지',
-                          style: TextStyle(
-                              fontSize: height * 0.02,
-                              color: Colors.black),)
-                      ],
-                    )
+                    ),
+                  ],
                 ),
 
-                CupertinoButton(
-                  //borderRadius: BorderRadius.all(Radius.circular(10)),
-                    onPressed: () {},
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.fromLTRB(20,0,20,0),
-                          width: width*0.8,
-                          height: height*0.15,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.grey
-                          ),
-                        ),
-                        Text('뭐지',
-                          style: TextStyle(
-                              fontSize: height * 0.02,
-                              color: Colors.black),)
-                      ],
-                    )
+
+                // CupertinoButton(
+                //   //borderRadius: BorderRadius.all(Radius.circular(10)),
+                //     onPressed: () {},
+                //     child: Column(
+                //       children: [
+                //         Container(
+                //         margin: EdgeInsets.fromLTRB(width*0.05,0,width*0.05,0),
+                //         width: width*0.8,
+                //           height: height*0.15,
+                //         decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(10),
+                //             color: Colors.grey
+                //         ),
+                //       ),
+                //         Text('오늘의 추천 판매자',
+                //           style: TextStyle(
+                //               fontSize: height * 0.02,
+                //               color: Colors.black),)
+                //       ],
+                //     )
+                // ),
+
+                Container(
+                    height: height * 0.1,
+                    padding: EdgeInsets.fromLTRB(width * 0.05, height * 0.02, 0, 0),
+                  child:
+                    Text('오늘의 추천', style: TextStyle(fontSize: height * 0.1*0.27, fontWeight: FontWeight.bold),)
                 ),
+                Row(
+                  children: [
+                    CupertinoButton(
+                      //borderRadius: BorderRadius.all(Radius.circular(10)),
+                        onPressed: () {},
+                        child: Column(
+                          children: [Container(
+                            width: width*0.4,
+                            height: height*0.15,
+                            decoration:  const BoxDecoration(
+                              image:
+                              DecorationImage(
+                                image: AssetImage('assets/person3.png'),
+                              ),
+                            ),
+                          ),
+                          ],
+                        )
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(width * 0.05, 0, 0, 0),
+                      child:
+                    Text('코딩 분야에서\n    인기가 많아요!', style: TextStyle(fontSize: height * 0.1*0.22,),)
+                    )
+
+
+
+                  ]
+                )
 
               ],
             ),
+
 
 
     );

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,16 +27,21 @@ class CheckBoxWidget extends StatefulWidget{
 
 class _CheckBoxWidgetState extends State<CheckBoxWidget>{
 
-  //List<String> SubjectList = ['C','C++','C#','Java','Python'];
+  final firestore  = FirebaseFirestore.instance;
 
+  getData() async {
+    var result = await firestore.collection('seller_user').where("field", isEqualTo: "CS").get();
+    print(result);
+  }
 
-  final List <CheckBoxModel> checkBoxList = [
+  List <CheckBoxModel> checkBoxList = [
     CheckBoxModel(title: 'C'),
     CheckBoxModel(title: 'C++'),
     CheckBoxModel(title: 'C#'),
     CheckBoxModel(title: 'Java'),
     CheckBoxModel(title: 'Python'),
   ];
+
 
   //List<String> selected_list = ['','','','',''];
 
@@ -54,11 +60,18 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
     });
   }
 
+  // List <CheckBoxModel> what_check(List<CheckBoxModel> list){
+  //   list.any((element) => )
+  //   return list;
+  // }
+
 
   @override
   void initState() {
 
     super.initState();
+    getData();
+
   }
 
   @override
@@ -71,23 +84,31 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
       designSize: Size(360,640),
 
         builder: (BuildContext context, Widget? child)
-        { return CupertinoPageScaffold(
-      child:
+        {
+          return Scaffold(
+            appBar: AppBar(
+              iconTheme: IconThemeData(
+                color: Colors.black
+              ),
+              backgroundColor: Colors.white,
+              elevation: 0.5,
+            ),
+      body:
       Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: width*0.2,
-            height: height*0.15,
-            child:
-            IconButton(
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop(context);
-              },
-              icon: const Icon(Icons.arrow_back_ios_new_sharp),color: Colors.black,),
-          ),
-         Padding(padding: EdgeInsets.only(left:width*0.07, bottom:width*0.07),
+          // SizedBox(
+          //   width: width*0.2,
+          //   height: height*0.15,
+          //   child:
+          //   IconButton(
+          //     onPressed: () {
+          //       Navigator.of(context, rootNavigator: true).pop(context);
+          //     },
+          //     icon: const Icon(Icons.arrow_back_outlined),color: Colors.black,),
+          // ),
+         Padding(padding: EdgeInsets.only(left:width*0.07, top: height * 0.05, bottom: height * 0.03),
             child: Text('어떤 과목을 찾으시나요?',
               style: TextStyle(fontSize: height*0.035),),
           ),
@@ -108,9 +129,13 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.grey[300])
                     ),
-                    onPressed: () {if(checkBoxList.any((x) => x.value)){ //하나라도 체크된 게 있으면 페이지 넘어감
-                      Navigator.push(context, CupertinoPageRoute(builder:(context) => choose_location()),);
-                    }
+                    onPressed: () {
+                      if(checkBoxList.any((x) => x.value)) { //하나라도 체크된 게 있으면 페이지 넘어감
+                        checkBoxList.retainWhere((element) =>
+                        element.value = true
+                        );
+                        Navigator.push(context, CupertinoPageRoute(builder:(context) => choose_location()));
+                      }
                     else{ // 없으면 alert 띄움
                       _showAlert(title: "선택사항 없음", message: "최소 1개 이상을 선택해주세요");
                     }},

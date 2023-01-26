@@ -44,7 +44,7 @@ dependencies:
   csv: ^5.0.1
   csc_picker: ^0.2.6
   flutter_spinkit: ^5.1.0
-#  google_mobile_ads: ^2.3.0
+  google_mobile_ads: ^2.3.0
 
 dev_dependencies:
   flutter_test:
