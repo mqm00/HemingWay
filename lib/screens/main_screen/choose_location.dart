@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:csv/csv.dart';
 import 'loading_screen.dart';
-
+import 'coding_detail.dart';
 
 class choose_location extends StatelessWidget {
 
@@ -13,8 +13,8 @@ class choose_location extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-      home:
+    return Scaffold(
+     body:
         getLocation()
     );
   }
@@ -29,6 +29,7 @@ class getLocation extends StatefulWidget{
 }
 
 class _getLocation extends State<getLocation>{
+
 
   void _showAlert({String? title, String? message}) {
     showCupertinoDialog(context: context, builder: (context) {
@@ -98,14 +99,14 @@ class _getLocation extends State<getLocation>{
       onChanged: (value) {
         setState(() {
           _selectedGuGun = value!;
-          print('selected $sido $_selectedGuGun');
+          // print('selected $sido $_selectedGuGun');
         });
       },
     );
   }
 
   String location (){ //전체 주소를 string으로 리턴하는 함수
-    print('함수 실행');
+
     String local;
 
     if (_selectedSido != '시/도 선택' && _selectedGuGun != '구/군 선택'){
@@ -126,26 +127,34 @@ class _getLocation extends State<getLocation>{
 
     return Scaffold(
 
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+              color: Colors.black
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0.5,
+        ),
+
         body: Column(
 
           children: [
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-              children:[
-            SizedBox(
-              width: width*0.2,
-              height: height*0.15,
-              child:
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop(context);
-                },
-                icon: const Icon(Icons.arrow_back_ios_new_sharp),color: Colors.black,),
-            )]),
+            // Row(
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //   children:[
+            // SizedBox(
+            //   width: width*0.2,
+            //   height: height*0.15,
+            //   child:
+            //   IconButton(
+            //     onPressed: () {
+            //       Navigator.of(context, rootNavigator: true).pop(context);
+            //     },
+            //     icon: const Icon(Icons.arrow_back),color: Colors.black,),
+            // )]),
         Row(
             children:
-            [Padding(padding: EdgeInsets.only(left:width*0.07),
+            [Padding(padding: EdgeInsets.only(left:width*0.07, top: height * 0.03),
               child: Text('지역을 선택해주세요',
                 style: TextStyle(fontSize: height*0.035),),
             )]),
@@ -155,7 +164,7 @@ class _getLocation extends State<getLocation>{
               crossAxisAlignment: CrossAxisAlignment.start,
 
               children: [
-                Padding(padding: EdgeInsets.only(top:height*0.08)),
+                Padding(padding: EdgeInsets.only(top:height*0.05)),
 
                 Text('시/도 를 선택해주세요',
                   style: TextStyle(fontSize: height*0.025),),
