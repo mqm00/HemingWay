@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../info_screen/info.dart';
+
 class LoadingScreen extends StatelessWidget {
 
   const LoadingScreen({Key? key}) : super(key: key);
@@ -32,24 +34,18 @@ class _loading_screen extends State<Loading_screen>{
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return CupertinoPageScaffold(
-        child:
+    return Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+              color: Colors.black
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0.5,
+        ),
+        body:
             Column(
                 children:
                 [
-                Row(
-                  children:
-                  [
-                    Container(
-                    width: width*0.2,
-                    height: height*0.15,
-                    child:
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.arrow_back_ios_new_sharp),color: Colors.black,),
-                  )]),
 
                   Center(
                       child: Column(
@@ -81,7 +77,7 @@ class _loading_screen extends State<Loading_screen>{
                                   backgroundColor: MaterialStateProperty.all(Colors.grey[300])
                               ),
                               onPressed: () {
-                                // Navigator.push(context, CupertinoPageRoute(builder:(context) => LoadingScreen()));
+                                Navigator.push(context, MaterialPageRoute(builder:(context) => informationSeller()));
                               },
                             ),
                           )]

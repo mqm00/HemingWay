@@ -4,16 +4,10 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'coding_detail.dart';
 import 'package:flutter/foundation.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-// void main() {
-//   runApp(MyApp());
-// }
-
-// final String iosTestId = 'ca-app-pub-3940256099942544/2934735716';
-//
-// BannerAd? banner;
-
+//테스트 앱/배너 아이디
 const Map<String, String> UNIT_ID = kReleaseMode
     ? {
   'ios': '[YOUR iOS AD UNIT ID]',
@@ -60,22 +54,19 @@ class MainWidget extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0.5,
       ),
-      // navigationBar: const CupertinoNavigationBar(
-      //   backgroundColor: Colors.transparent,
-      // ),
             body:
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                    padding: EdgeInsets.fromLTRB(width * 0.05, height * 0.03, 0, 0),
-                  height: height * 0.12,
+                   margin: EdgeInsets.fromLTRB(width * 0.05, height * 0.02, 0, 0),
+                  height: height * 0.11,
                   child: Align(
                     alignment: Alignment.topLeft,
                       child: Text('안녕하세요!\n어떤 일을 의뢰하실건가요?',
                           style: TextStyle(/*fontFamily: 'SCDream',*/
-                              fontSize: height * 0.1*0.27, fontWeight: FontWeight.bold)))),
+                              fontSize: height * 0.1*0.30, fontWeight: FontWeight.bold)))),
                 Container(
                   height: height*0.15,
                 child: Row(
@@ -279,7 +270,7 @@ class MainWidget extends StatelessWidget {
                   children: [
                     Container(
 
-                      height: 80,
+                      height: height * 0.1,
 
                       child: AdWidget(
                         ad: banner,
@@ -287,6 +278,7 @@ class MainWidget extends StatelessWidget {
                     ),
                   ],
                 ),
+
 
                 // CupertinoButton(
                 //   //borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -315,10 +307,40 @@ class MainWidget extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(width * 0.05, height * 0.02, 0, 0),
                   child:
                     Text('오늘의 추천', style: TextStyle(fontSize: height * 0.1*0.27, fontWeight: FontWeight.bold),)
+                ),
+                Row(
+                  children: [
+                    CupertinoButton(
+                      //borderRadius: BorderRadius.all(Radius.circular(10)),
+                        onPressed: () {},
+                        child: Column(
+                          children: [Container(
+                            width: width*0.4,
+                            height: height*0.15,
+                            decoration:  const BoxDecoration(
+                              image:
+                              DecorationImage(
+                                image: AssetImage('assets/person3.png'),
+                              ),
+                            ),
+                          ),
+                          ],
+                        )
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(width * 0.05, 0, 0, 0),
+                      child:
+                    Text('코딩 분야에서\n    인기가 많아요!', style: TextStyle(fontSize: height * 0.1*0.22,),)
+                    )
+
+
+
+                  ]
                 )
 
               ],
             ),
+
 
 
     );
