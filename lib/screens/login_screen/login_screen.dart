@@ -1,5 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'package:hemingway/main.dart';
+import 'package:hemingway/screens/expert_screen/expert_screen.dart';
+import 'package:hemingway/screens/login_screen/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -9,52 +16,130 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool isSignupScreen = true;
-  final _authentication = FirebaseAuth.instance; //이메일이나 패스워드를 사용해 로그인 할 수 있는 메서드 사용 가능
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController(); // 입력되는 값을 제어
+  final TextEditingController _passwordController = TextEditingController();
 
+  String _imageFile = 'assets/images/main.png'; // 로그인 폼 상단에 이미지 표시. 이미지 없으면 엑박으로 뜸
+  Widget _userIdWidget() {
+    return TextFormField(
+      controller: _emailController,
+      keyboardType: TextInputType.emailAddress,
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: '이메일'
+      ),
+      validator: (String? value) {
+        if(value!.isEmpty) { // null or isEmpty
+          return '이메일을 입력해주세요.';
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget _passwordWidget() {
+    return TextFormField(
+      controller: _passwordController,
+      obscureText: true,
+      // keyboardType: TextInputType.number,
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: '비밀번호',
+      ),
+      validator: (String? value) { // null or isEmpty
+        if(value!.isEmpty) {
+          return '비밀번호를 입력해주세요.';
+        }
+        return null;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              right: 0,
-              left: 0,
-              child: Container(
-                height: 300,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('image/white.jpg'),
-                      fit: BoxFit.fill
-                  ),
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: const Text("로그인"),
+        centerTitle: true,
+      ),
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Image(width: 400.0, height: 250.0, image: AssetImage(_imageFile)),
+              const SizedBox(height: 20.0),
+              _userIdWidget(),
+              const SizedBox(height: 20.0),
+              _passwordWidget(),
+              Container(
+                height: 70,
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 8.0), // 8단위 배수가 보기 좋음
+                child: ElevatedButton(
+                  onPressed: () => _login(),
+                  child: const Text("로그인")
                 ),
-                child: RichText(
-                        text: TextSpan(
-                          text: 'Welcome to',
-                          style: TextStyle(
-                            letterSpacing: 1.0,
-                            fontSize: 25,
-                            color: Colors.black,
-                          ),
-                          children: [
-                            TextSpan(
-                            text: ' HemingWay',
-                            style: TextStyle(
-                              letterSpacing: 1.0,
-                              fontSize: 25,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold)
-                            ),
-                          ]
-                        ),
-                      ),
-                  ),
+              ),
+              Container(
+                height: 70,
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 8.0), // 8단위 배수가 보기 좋음
+                child: ElevatedButton(
+                    onPressed: () => Get.to(SignupScreen()),
+                    child: const Text("회원가입")
                 ),
-          ],
+              ),
+            ],
+          ),
         )
+      ),
     );
+  }
+
+  @override
+  void initState() { // 해당 클래스가 호출 되었을 때
+    super.initState();
+  }
+
+  @override
+  void dispose() { // 해당 클래스가 사라졌을 때
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  _login() async {
+    // 키보드 숨기기
+    if(_formKey.currentState!.validate()) {
+      FocusScope.of(context).requestFocus(FocusNode());
+
+      // firebase 사용자 인증 & 사용자 등록
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+        Get.offAll(() => const ExpertInformation());
+      } on FirebaseException catch(e) {
+        logger.e(e);
+        String message = '';
+
+        if(e.code == 'user-not-found') {
+          message = '사용자가 존재하지 않습니다.';
+        } else if(e.code == 'wrong-password') {
+          message = '비밀번호를 확인하세요.';
+        } else if(e.code == 'invalid-email') {
+          message = '이메일을 확인하세요.';
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.deepOrange,
+          )
+        );
+      }
+    }
   }
 }

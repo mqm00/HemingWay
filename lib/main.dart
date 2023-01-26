@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:get/get.dart';
+import 'package:hemingway/screens/login_screen/login_screen.dart';
+import 'package:logger/logger.dart';
 import 'screens/main_screen/main_screen.dart';
 import 'package:hemingway/screens/expert_screen/expert_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:hemingway/screens/login_screen/login_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //firebase intialize 불러오려면 있어야함
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
-
-  runApp(MyApp2());
+  // MobileAds.instance.initialize();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,13 +26,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'HemingWay',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey
       ),
-      home: ExpertInformation(),
+      home: MyApp2()
     );
   }
 }
-
