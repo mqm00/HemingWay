@@ -3,10 +3,12 @@ import 'screens/main_screen/main_screen.dart';
 import 'package:hemingway/screens/expert_screen/expert_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-
+import 'package:hemingway/screens/login_screen/login_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //firebase intialize 불러오려면 있어야함
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -29,3 +31,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

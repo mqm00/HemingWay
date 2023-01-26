@@ -1,20 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class API {
-  API(String id){
+class SellerInformation {
+
+  SellerInformation(String id){
     userDoc = id;
   }
-  final _firestore = FirebaseFirestore.instance.collection('seller_user');
-  static String? userDoc;
-  static String? userName;
-  static String? userAge;
-  static String? userCareer;
-  static String? userEducation;
-  static String? userField;
-  var information;
 
-  getData() async {
-    information = await _firestore.doc(userDoc).get();
-    //print(information.data());
+  final _firestore = FirebaseFirestore.instance.collection('seller_user');
+  String userDoc = '';
+  String userName = '';
+  String userAge = '';
+  String userCareer = '';
+  String userEducation = '';
+  String userField = '';
+
+  getData() async{
+    final _firestore = FirebaseFirestore.instance.collection('seller_user');
+    var docSnapshot = await _firestore.doc('BxPkxOdKcKTyN7SRCysB').get();
+    Map<String, dynamic> information = docSnapshot.data()!;
+    print(information['name']);
   }
+
+  getName(){
+    return userName;
+  }
+
 }
