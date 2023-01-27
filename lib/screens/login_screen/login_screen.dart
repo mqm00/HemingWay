@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
         String userId = await FirebaseAuth.instance.currentUser!.uid;
-        Get.offAll(() => Test(userId));
+        Get.offAll(() => MyApp2());
       } on FirebaseException catch(e) {
         logger.e(e);
         String message = '';

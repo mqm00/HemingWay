@@ -378,7 +378,8 @@ class _TestState extends State<Test> {
                   ),
                 ), //상세 정보
                 Positioned(
-                  right: MediaQuery.of(context).size.width-411,
+                  //width: double.infinity,
+                  left: MediaQuery.of(context).size.width-450,
                   top: MediaQuery.of(context).size.height-131,
                   child: ElevatedButton(
                     onPressed: () {
@@ -390,7 +391,7 @@ class _TestState extends State<Test> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       elevation: 1.0,
-                      minimumSize: Size(300, 50),
+                      minimumSize: Size(500, 50),
                     ),
                   ),
                 ),

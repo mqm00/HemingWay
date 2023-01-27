@@ -1,32 +1,52 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hemingway/api/seller_info.dart';
+import 'package:hemingway/screens/expert_screen/test.dart';
+/*import 'expert_provider.dart';
+import 'package:provider/provider.dart';
 
-/*void main() => runApp(infoApp());
+class Expert{
+  late String id;
+  late List<String> tech; //언어
+  late String name;
+  late String age;
+  late String sex;
+  late String education; //학력
+  late String field; //전문분야
+  late String rating; //별점대신
+  late String career; //경력
+  Image image = AssetImage('assets/img.png') as Image; // 기본 이미지 넣어두기
 
-class infoApp extends StatelessWidget {
+  Expert({
+    //required는 생성자가 기본값이 없고, null이 아닌 경우에 사용
+    required this.id,
+    required this.tech,
+    required this.name,
+    required this.age,
+    required this.sex,
+    required this.education,
+    required this.field,
+    required this.rating,
+    required this.career,
+ });
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: informationSeller(),
-    );
+  Expert.fromSnapshot(DocumentSnapshot documentSnapshot){
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+    id = documentSnapshot.id;
+    tech = data['tech'];
+    name = data['name'];
+    age = data['age'];
+    sex = data['sex'];
+    education = data['education'];
+    field = data['field'];
+    rating = data['rating'];
+    career = data['career'];
   }
 }*/
 
-/* 정보 받아둬야 할텐데...
-class Expert{
-  String name = '';
-  Image image = AssetImage('assets/img.png') as Image; // 기본 이미지 넣어두기
-  String info = '';
-//나이, 성별
-//별점
-//고용횟수
-}
-void makeList(){}*/
 
-/*
-ToggleButtons*/
 
 class informationSeller extends StatefulWidget {
   const informationSeller({Key? key}) : super(key: key);
@@ -37,6 +57,20 @@ class informationSeller extends StatefulWidget {
 
 class _informationSellerState extends State<informationSeller> {
 
+  //late String id;
+  late List<String> tech; //언어
+  late String name;
+  late String age;
+  late String sex;
+  late String education; //학력
+  late String field; //전문분야
+  late String rating; //별점대신
+  late String career; //경력
+  //Image image = AssetImage('assets/img.png') as Image; // 기본 이미지 넣어두기
+
+  CollectionReference collectionReference = FirebaseFirestore.instance.collection('seller_user');
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,20 +79,77 @@ class _informationSellerState extends State<informationSeller> {
           '검증된 전문가를 만나보세요.',
           style: TextStyle(color: Colors.black),
         ),
-        leading: BackButton()/*IconButton(
-          onPressed: (){},
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-        )*/,
+        leading: BackButton(),
         backgroundColor: Colors.grey,
         elevation: 0.0,
       ),
-      body: ListView(
-        children: [
-          buttonSection,
-          //toggleBar,
-          SellerIcon,
-        ],
+      body:
+      StreamBuilder(
+        stream: collectionReference.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> streamSnapshot){
+
+          if(streamSnapshot.hasData){
+            return ListView.builder(
+              itemCount: streamSnapshot.data!.docs.length,
+              itemBuilder: (context, index){
+                final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
+                print(documentSnapshot['name']);
+                return CupertinoButton(
+                  //borderRadius: BorderRadius.all(Radius.circular(10)),
+                    onPressed: () {
+                      Navigator.push(context, CupertinoPageRoute(builder:(context) => Test(documentSnapshot.id)),);
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 150,
+                          decoration: const BoxDecoration(
+                            image:
+                            DecorationImage(
+                                image: AssetImage('assets/person1.png')
+                            ),
+                          ),
+
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(documentSnapshot['name'],
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),),
+                              Text('(만' + documentSnapshot['age'].toString() + '세)',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal),)
+                            ]
+                        ),
+                        Text('● ' + documentSnapshot['education'],
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey
+                          ),
+                        ),
+                      ],
+                    )
+                );
+                /*Card( //(TODO)여기서 바둑알 모양으로 나오게 바꿔줘야 해
+                  child: ListTile(
+                    title: Text(documentSnapshot['name']),
+                    subtitle: Text(documentSnapshot['age'].toString()),
+                  ),
+                );*/
+              },
+            );
+          }
+          return CircularProgressIndicator();
+        },
       ),
+
+
     );
   }
 
