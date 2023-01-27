@@ -157,5 +157,11 @@
             <string>3qcr597p9d.skadnetwork</string>
           </dict>
         </array>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>We need an access</string>
+        <key>NSCameraUsageDescription</key>
+        <string>We need an access</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>We need an access</string>
     </dict>
     </plist>

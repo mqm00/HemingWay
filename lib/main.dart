@@ -6,6 +6,7 @@ import 'screens/main_screen/main_screen.dart';
 import 'package:hemingway/screens/expert_screen/expert_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:hemingway/screens/expert_screen/test.dart';
 
 var logger = Logger(
   printer: PrettyPrinter(),
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey
       ),
-      home: MyApp2()
+      home: LoginScreen()
     );
   }
 }

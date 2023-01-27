@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:hemingway/main.dart';
 import 'package:hemingway/screens/expert_screen/expert_screen.dart';
 import 'package:hemingway/screens/login_screen/signup_screen.dart';
+import 'package:hemingway/screens/main_screen/main_screen.dart';
+import 'package:hemingway/screens/expert_screen/test.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -20,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController(); // 입력되는 값을 제어
   final TextEditingController _passwordController = TextEditingController();
 
-  String _imageFile = 'assets/images/main.png'; // 로그인 폼 상단에 이미지 표시. 이미지 없으면 엑박으로 뜸
+  String _imageFile = 'image/sailboat.png'; // 로그인 폼 상단에 이미지 표시. 이미지 없으면 엑박으로 뜸
   Widget _userIdWidget() {
     return TextFormField(
       controller: _emailController,
@@ -70,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              Image(width: 400.0, height: 250.0, image: AssetImage(_imageFile)),
+              Image(width: 200.0, height: 200.0, image: AssetImage('image/sailboat.png')),
               const SizedBox(height: 20.0),
               _userIdWidget(),
               const SizedBox(height: 20.0),
@@ -120,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // firebase 사용자 인증 & 사용자 등록
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-        Get.offAll(() => const ExpertInformation());
+        Get.offAll(() => Test());
       } on FirebaseException catch(e) {
         logger.e(e);
         String message = '';
