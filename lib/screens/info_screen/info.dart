@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hemingway/api/seller_info.dart';
+import 'package:hemingway/screens/expert_screen/test.dart';
 /*import 'expert_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -96,6 +97,7 @@ class _informationSellerState extends State<informationSeller> {
                 return CupertinoButton(
                   //borderRadius: BorderRadius.all(Radius.circular(10)),
                     onPressed: () {
+                      Navigator.push(context, CupertinoPageRoute(builder:(context) => Test(documentSnapshot.id)),);
                     },
                     child: Column(
                       children: [
