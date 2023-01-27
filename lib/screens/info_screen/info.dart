@@ -107,7 +107,7 @@ class _informationSellerState extends State<informationSeller> {
                           decoration: const BoxDecoration(
                             image:
                             DecorationImage(
-                                image: AssetImage('assets/person1.png')
+                                image: AssetImage('assets/person1.png'),
                             ),
                           ),
 
