@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import 'package:hemingway/main.dart';
 import 'package:hemingway/screens/expert_screen/expert_screen.dart';
+import 'package:hemingway/screens/info_screen/info.dart';
 import 'package:hemingway/screens/login_screen/signup_screen.dart';
 import 'package:hemingway/screens/main_screen/main_screen.dart';
 import 'package:hemingway/screens/expert_screen/test.dart';
@@ -122,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // firebase 사용자 인증 & 사용자 등록
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-        Get.offAll(() => Test());
+        Get.offAll(() => MyApp2());
       } on FirebaseException catch(e) {
         logger.e(e);
         String message = '';
