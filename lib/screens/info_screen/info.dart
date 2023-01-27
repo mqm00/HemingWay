@@ -89,7 +89,7 @@ class _informationSellerState extends State<informationSeller> {
       ),
       body:
       StreamBuilder(
-        stream: collectionReference.snapshots(),
+        stream: collectionReference.where('tech', arrayContainsAny: widget.coding_checked).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> streamSnapshot){
 
           if(streamSnapshot.hasData){

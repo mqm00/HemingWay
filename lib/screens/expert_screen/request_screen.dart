@@ -1,6 +1,6 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
-
+import 'package:hemingway/screens/expert_screen/complete_screens.dart';
 
 class RequestPaper extends StatefulWidget {
   const RequestPaper({Key? key}) : super(key: key);
@@ -187,7 +187,7 @@ class _RequestPaperState extends State<RequestPaper> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext context) => RequestPaper(),)
+                          MaterialPageRoute(builder: (BuildContext context) => Complete(),)
                       );
                     },
                     child: Text('의뢰하시겠습니까?', style: TextStyle(fontSize: 15, letterSpacing: 1.0),),
