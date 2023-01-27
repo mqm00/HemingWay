@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hemingway/screens/login_screen/login_screen.dart';
+import 'package:hemingway/screens/login_screen/multiple_login_screen.dart';
 import 'package:logger/logger.dart';
 import 'screens/main_screen/main_screen.dart';
 import 'package:hemingway/screens/expert_screen/expert_screen.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey
       ),
-      home: LoginScreen(),
+      home: MultipleLoginScreen(),
     );
   }
 }
