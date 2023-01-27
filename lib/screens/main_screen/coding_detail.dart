@@ -3,23 +3,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'choose_location.dart';
+import 'CheckBoxModel.dart';
 
 class Coding1 extends StatelessWidget {
 
-  const Coding1({Key? key}) : super(key: key);
+   Coding1({Key? key, required this.field}) : super(key: key);
+
+  String field;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return const Scaffold(
+    return Scaffold(
       body:
-      CheckBoxWidget(),
+      CheckBoxWidget(field: field),
     );
   }
 }
 
 class CheckBoxWidget extends StatefulWidget{
-  const CheckBoxWidget({Key? key}) : super(key: key);
+
+  CheckBoxWidget({Key? key, required this.field}) : super(key: key);
+  String field;
+  //앞 화면에서 '코딩'을 선택한 사람들에게 field 가 'CS'인 판매자들을 보여줌.
 
   @override
   State<StatefulWidget> createState() => _CheckBoxWidgetState();
@@ -27,19 +33,19 @@ class CheckBoxWidget extends StatefulWidget{
 
 class _CheckBoxWidgetState extends State<CheckBoxWidget>{
 
-  final firestore  = FirebaseFirestore.instance;
 
-  getData() async {
-    var result = await firestore.collection('seller_user').where("field", isEqualTo: "CS").get();
-    print(result);
-  }
+
+  late List<CheckBoxModel> checked ;
 
   List <CheckBoxModel> checkBoxList = [
     CheckBoxModel(title: 'C'),
     CheckBoxModel(title: 'C++'),
     CheckBoxModel(title: 'C#'),
-    CheckBoxModel(title: 'Java'),
-    CheckBoxModel(title: 'Python'),
+    CheckBoxModel(title: 'JAVA'),
+    CheckBoxModel(title: 'JAVASCRIPT'),
+    CheckBoxModel(title: 'PYTHON'),
+    CheckBoxModel(title: 'KOTLIN'),
+    CheckBoxModel(title: 'MATHLAB'),
   ];
 
 
@@ -60,7 +66,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
     });
   }
 
-  // List <CheckBoxModel> what_check(List<CheckBoxModel> list){
+  // List <CheckBoxModel.dart> what_check(List<CheckBoxModel.dart> list){
   //   list.any((element) => )
   //   return list;
   // }
@@ -70,7 +76,6 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
   void initState() {
 
     super.initState();
-    getData();
 
   }
 
@@ -109,19 +114,19 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
           //     icon: const Icon(Icons.arrow_back_outlined),color: Colors.black,),
           // ),
          Padding(padding: EdgeInsets.only(left:width*0.07, top: height * 0.05, bottom: height * 0.03),
-            child: Text('어떤 과목을 찾으시나요?',
+            child: Text('어떤 언어를 의뢰하시나요?',
               style: TextStyle(fontSize: height*0.035),),
           ),
 
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Flexible(
+            child:ListView(
           children: checkBoxList.map(buildACheckBox).toList(),
-        ),
+        )),
 
               Align(
                 alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 50.h, 0, 10.h),
+                    padding: EdgeInsets.fromLTRB(0, 50.h, 0, 50.h),
                   child: SizedBox(
                     height: height * 0.06,
                     width: width * 0.6,
@@ -130,11 +135,13 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
                         backgroundColor: MaterialStateProperty.all(Colors.grey[300])
                     ),
                     onPressed: () {
+                      List<String> checked2 = List.empty(growable: true);
                       if(checkBoxList.any((x) => x.value)) { //하나라도 체크된 게 있으면 페이지 넘어감
-                        checkBoxList.retainWhere((element) =>
-                        element.value = true
-                        );
-                        Navigator.push(context, CupertinoPageRoute(builder:(context) => choose_location()));
+                        checked =
+                            checkBoxList.where((element) => element.value == true ).toList();
+                        checked.forEach((element) {checked2.add(element.title);});
+                        print(checked2.length);
+                        Navigator.push(context, CupertinoPageRoute(builder:(context) => choose_location(checked : checked2, field: widget.field)));
                       }
                     else{ // 없으면 alert 띄움
                       _showAlert(title: "선택사항 없음", message: "최소 1개 이상을 선택해주세요");
@@ -153,7 +160,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
 
   Widget buildACheckBox(CheckBoxModel checkBox) {
     return Transform.scale(
-      scale: 1.05,
+      scale: 1,
         child: CheckboxListTile(
           contentPadding: EdgeInsets.fromLTRB(50.w, 10.h, 55.w, 0),
           controlAffinity: ListTileControlAffinity.trailing,
@@ -161,7 +168,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
           value: checkBox.value,
       title: Text(
         checkBox.title,
-        style: TextStyle(fontSize: 20.h),
+        style: TextStyle(fontSize: 18.h),
       ),
       onChanged: (value) =>
           setState(() {
@@ -169,13 +176,6 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget>{
           }),
     ));
   }
-}
-
-class CheckBoxModel { //체크박스 각각 하나의 클래스
-  String title;
-  bool value;
-
-  CheckBoxModel({required this.title, this.value = false});
 }
 
 

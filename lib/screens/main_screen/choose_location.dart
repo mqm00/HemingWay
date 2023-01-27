@@ -8,28 +8,31 @@ import 'coding_detail.dart';
 
 class choose_location extends StatelessWidget {
 
-  const choose_location({Key? key}) : super(key: key);
+  choose_location({Key? key, required this.checked, required this.field}) : super(key: key);
+  List<String> checked;
+  String field;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
      body:
-        getLocation()
+        getLocation(checked: checked, field:field)
     );
   }
 }
 
 
 class getLocation extends StatefulWidget{
-  const getLocation({Key? key}) : super(key: key);
+  getLocation({Key? key, required this.checked, required this.field}) : super(key: key);
+  List<String> checked;
+  String field;
 
   @override
   State<StatefulWidget> createState() => _getLocation();
 }
 
 class _getLocation extends State<getLocation>{
-
 
   void _showAlert({String? title, String? message}) {
     showCupertinoDialog(context: context, builder: (context) {
@@ -122,6 +125,7 @@ class _getLocation extends State<getLocation>{
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
 
     String local = location();
 
@@ -248,7 +252,8 @@ class _getLocation extends State<getLocation>{
                         else{
                           // String sido = '';
                           // String gugun = '';
-                          Navigator.push(context, CupertinoPageRoute(builder:(context) => LoadingScreen()));
+
+                          Navigator.push(context, CupertinoPageRoute(builder:(context) => LoadingScreen(coding_checked : widget.checked, sido: _selectedSido, gugun : _selectedGuGun, field: widget.field)));
                         }
                       },
                     ),
@@ -260,4 +265,3 @@ class _getLocation extends State<getLocation>{
         ));
   }
 }
-

@@ -97,10 +97,11 @@ class MainWidget extends StatelessWidget {
                     ),
 
 
-                    CupertinoButton(
+                    CupertinoButton( //코딩만
                       //borderRadius: BorderRadius.all(Radius.circular(10)),
                         onPressed: () {
-                          Navigator.push(context, CupertinoPageRoute(builder:(context) => Coding1()),);
+                          String field = 'app dev';
+                          Navigator.push(context, CupertinoPageRoute(builder:(context) => Coding1(field : field)),);
                         },
                         child: Column(
                           children: [
@@ -278,29 +279,6 @@ class MainWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-
-
-                // CupertinoButton(
-                //   //borderRadius: BorderRadius.all(Radius.circular(10)),
-                //     onPressed: () {},
-                //     child: Column(
-                //       children: [
-                //         Container(
-                //         margin: EdgeInsets.fromLTRB(width*0.05,0,width*0.05,0),
-                //         width: width*0.8,
-                //           height: height*0.15,
-                //         decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(10),
-                //             color: Colors.grey
-                //         ),
-                //       ),
-                //         Text('오늘의 추천 판매자',
-                //           style: TextStyle(
-                //               fontSize: height * 0.02,
-                //               color: Colors.black),)
-                //       ],
-                //     )
-                // ),
 
                 Container(
                     height: height * 0.1,

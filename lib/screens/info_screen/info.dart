@@ -49,7 +49,11 @@ class Expert{
 
 
 class informationSeller extends StatefulWidget {
-  const informationSeller({Key? key}) : super(key: key);
+  informationSeller({Key? key, required this.coding_checked, required this.sido, required this.gugun, required this.field}) : super(key: key);
+  List<String> coding_checked;
+  String sido;
+  String gugun;
+  String field;
 
   @override
   State<informationSeller> createState() => _informationSellerState();
