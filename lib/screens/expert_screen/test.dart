@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hemingway/screens/expert_screen/request_screen.dart';
 
 class Test extends StatefulWidget {
   const Test(this.documentID, {Key? key}) : super(key: key);
@@ -383,6 +384,9 @@ class _TestState extends State<Test> {
                   top: MediaQuery.of(context).size.height-131,
                   child: ElevatedButton(
                     onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (BuildContext context) => RequestPaper(),)
+                      );
                     },
                     child: Text('의뢰하기', style: TextStyle(fontSize: 15, letterSpacing: 1.0),),
                     style: ElevatedButton.styleFrom(
