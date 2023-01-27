@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hemingway/screens/expert_screen/request_screen.dart';
 
+
 class Test extends StatefulWidget {
   const Test(this.documentID, {Key? key}) : super(key: key);
   final String documentID;
@@ -13,7 +14,14 @@ class Test extends StatefulWidget {
 
 class _TestState extends State<Test> {
   String name = '';
+  String age = '';
   String imageUrl = '';
+  String field = '';
+  String education = '';
+  String tech = '';
+  String introduce = '';
+  String career = '';
+  String location = '';
   CollectionReference collectionReference = FirebaseFirestore.instance.collection('seller_user');
 
   void initState(){
@@ -21,7 +29,14 @@ class _TestState extends State<Test> {
       setState(() {
         final data = value.data() as Map<String, dynamic>;
         name = data['name'];
+        age = data['age'].toString();
         imageUrl = data['picked_image'];
+        field = data['field'];
+        education = ' '+data['education'];
+        tech = data['tech'].toString();
+        introduce = data['introduce'];
+        career = ' '+ data['career']+'년';
+        location = data['region_si'] + ' ' + data['region_gu'];
       });
     });
   }
@@ -36,6 +51,7 @@ class _TestState extends State<Test> {
             color: Colors.black,
           ),
         ),
+        leading: BackButton(color: Colors.black,),
         backgroundColor: Colors.white,
       ),
       body:  StreamBuilder(
@@ -109,7 +125,7 @@ class _TestState extends State<Test> {
                         ),
                         RichText(
                           text: TextSpan(
-                            text: '만 23세',
+                            text: age,
                             style: TextStyle(
                               fontSize: 17,
                               color: Colors.black,
@@ -219,7 +235,7 @@ class _TestState extends State<Test> {
                           ),
                           RichText(
                             text: TextSpan(
-                              text: '앱 개발',
+                              text: field,
                               style: TextStyle(
                                 fontSize: 17,
                                 color: Colors.black,
@@ -251,7 +267,7 @@ class _TestState extends State<Test> {
                           ),
                           RichText(
                             text: TextSpan(
-                              text: 'Java, Flutter, Swift',
+                              text: tech,
                               style: TextStyle(
                                 fontSize: 17,
                                 color: Colors.black,
@@ -283,7 +299,7 @@ class _TestState extends State<Test> {
                           ),
                           RichText(
                             text: TextSpan(
-                              text: '나는 홍길동이오',
+                              text: introduce,
                               style: TextStyle(
                                 fontSize: 17,
                                 color: Colors.black,
@@ -326,7 +342,7 @@ class _TestState extends State<Test> {
                                   child: Icon(Icons.school),
                                 ),
                                 TextSpan(
-                                  text: ' 한양대학교',
+                                  text: education,
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black,
@@ -345,7 +361,7 @@ class _TestState extends State<Test> {
                                   child: Icon(Icons.schedule),
                                 ),
                                 TextSpan(
-                                  text: ' 17년',
+                                  text: career,
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black,
@@ -364,7 +380,7 @@ class _TestState extends State<Test> {
                                   child: Icon(Icons.place),
                                 ),
                                 TextSpan(
-                                  text: '서울 성동구, 종로구',
+                                  text: location,
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.black,

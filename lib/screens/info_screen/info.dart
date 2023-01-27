@@ -79,7 +79,7 @@ class _informationSellerState extends State<informationSeller> {
           '검증된 전문가를 만나보세요.',
           style: TextStyle(color: Colors.black),
         ),
-        leading: BackButton(),
+        leading: BackButton(color: Colors.black,),
         backgroundColor: Colors.grey,
         elevation: 0.0,
       ),
