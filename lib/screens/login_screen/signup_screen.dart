@@ -321,13 +321,13 @@ class _SignupScreenState extends State<SignupScreen> {
             .child('picked_image')
             .child(user!.uid + '.png');
         await refImage.putFile(userPickedImage!);
+        final url = await refImage.getDownloadURL();
 
         if (userPickedImage == null) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('please pick your image'),
             backgroundColor: Colors.blue,));
           return;
-
         }
         //이승수
 
@@ -342,6 +342,7 @@ class _SignupScreenState extends State<SignupScreen> {
           'address':
           _addressController.text + " " + _specificAddressController.text,
           'profileUrl': "",
+          'picked_image' : url,
         }).then((value) async {
           await FirebaseAuth.instance.signOut();
           Get.offAll(() => const LoginScreen());

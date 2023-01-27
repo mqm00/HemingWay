@@ -122,7 +122,8 @@ class _LoginScreenState extends State<LoginScreen> {
       // firebase 사용자 인증 & 사용자 등록
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-        Get.offAll(() => Test());
+        String userId = await FirebaseAuth.instance.currentUser!.uid;
+        Get.offAll(() => Test(userId));
       } on FirebaseException catch(e) {
         logger.e(e);
         String message = '';
