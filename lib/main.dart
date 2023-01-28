@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hemingway/screens/login_screen/email_login_screen.dart';
 import 'package:hemingway/screens/login_screen/login_screen.dart';
 import 'package:logger/logger.dart';
 import 'screens/main_screen/main_screen.dart';

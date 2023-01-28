@@ -1,17 +1,17 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hemingway/main.dart';
-import 'package:hemingway/screens/expert_screen/expert_screen.dart';
-import 'package:hemingway/screens/login_screen/signup_screen.dart';
+import 'package:hemingway/screens/login_screen/additional_info_screen.dart';
+import 'package:hemingway/screens/login_screen/email_login_screen.dart';
 import 'package:hemingway/screens/main_screen/main_screen.dart';
-import 'package:hemingway/screens/expert_screen/test.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key : key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -19,130 +19,255 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController(); // 입력되는 값을 제어
-  final TextEditingController _passwordController = TextEditingController();
 
-  String _imageFile = 'image/sailboat.png'; // 로그인 폼 상단에 이미지 표시. 이미지 없으면 엑박으로 뜸
-  Widget _userIdWidget() {
-    return TextFormField(
-      controller: _emailController,
-      keyboardType: TextInputType.emailAddress,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: '이메일'
+  String _imageFile = 'assets/logo/main/sailboat.png';
+
+  Widget _googleWidget() {
+    return SizedBox(
+      height: 70,
+      width: double.infinity,
+      // padding: const EdgeInsets.only(top: 8.0),
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.white,
+          ),
+          onPressed: () => _googleLogin(),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/logo/login/google_logo.png'),
+                  height: 18.0,
+                  width: 24,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 24, right: 8),
+                  child: Text(
+                    "Google로 시작하기",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w600
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
       ),
-      validator: (String? value) {
-        if(value!.isEmpty) { // null or isEmpty
-          return '이메일을 입력해주세요.';
-        }
-        return null;
-      },
     );
   }
 
-  Widget _passwordWidget() {
-    return TextFormField(
-      controller: _passwordController,
-      obscureText: true,
-      // keyboardType: TextInputType.number,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: '비밀번호',
+  Widget _kakaoWidget() {
+    return SizedBox(
+      height: 70,
+      width: double.infinity,
+      // padding: const EdgeInsets.only(top: 8.0),
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xffFEE500),
+              foregroundColor: Color(0xffFEE500),
+          ),
+          onPressed: () => _kakaoLogin(),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/logo/login/kakao_logo.png'),
+                  height: 48.0,
+                  width: 24,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 24, right: 8),
+                  child: Text(
+                    "카카오로 시작하기",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Color(0xff191919),
+                        fontWeight: FontWeight.w600
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
       ),
-      validator: (String? value) { // null or isEmpty
-        if(value!.isEmpty) {
-          return '비밀번호를 입력해주세요.';
-        }
-        return null;
-      },
+    );
+  }
+
+  Widget _naverWidget() {
+    return SizedBox(
+      height: 70,
+      width: double.infinity,
+      // padding: const EdgeInsets.only(top: 8.0),
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xff03C75A),
+              foregroundColor: Color(0xff03C75A)
+          ),
+          onPressed: () => _naverLogin(),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/logo/login/naver_green_circle_logo.png'),
+                  height: 48.0,
+                  width: 48,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 24, right: 8),
+                  child: Text(
+                    "네이버로 시작하기",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+      ),
+    );
+  }
+
+  Widget _emailWidget() {
+    return SizedBox(
+      height: 70,
+      width: double.infinity,
+      // padding: const EdgeInsets.only(top: 8.0),
+      child: ElevatedButton(
+          onPressed: () => _emailLogin(),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.email),
+                Padding(
+                  padding: EdgeInsets.only(left: 24, right: 8),
+                  child: Text(
+                    "이메일로 시작하기",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text("로그인"),
-        centerTitle: true,
-      ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Image(width: 200.0, height: 200.0, image: AssetImage('image/sailboat.png')),
-              const SizedBox(height: 20.0),
-              _userIdWidget(),
-              const SizedBox(height: 20.0),
-              _passwordWidget(),
-              Container(
-                height: 70,
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 8.0), // 8단위 배수가 보기 좋음
-                child: ElevatedButton(
-                  onPressed: () => _login(),
-                  child: const Text("로그인")
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: const Text("로그인"),
+          centerTitle: true,
+        ),
+        body: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                Image(
+                  width: 200.0,
+                  height: 200.0,
+                  image: AssetImage(_imageFile),
                 ),
-              ),
-              Container(
-                height: 70,
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 8.0), // 8단위 배수가 보기 좋음
-                child: ElevatedButton(
-                    onPressed: () => Get.to(SignupScreen()),
-                    child: const Text("회원가입")
-                ),
-              ),
-            ],
+                const SizedBox(height: 20.0),
+                _googleWidget(),
+                const SizedBox(height: 20.0),
+                _kakaoWidget(),
+                const SizedBox(height: 20.0),
+                _naverWidget(),
+                const SizedBox(height: 20.0),
+                _emailWidget()
+              ],
+            ),
           ),
         )
-      ),
     );
   }
 
   @override
-  void initState() { // 해당 클래스가 호출 되었을 때
+  void initState() {
     super.initState();
   }
 
   @override
-  void dispose() { // 해당 클래스가 사라졌을 때
-    _emailController.dispose();
-    _passwordController.dispose();
+  void dispose() {
     super.dispose();
   }
 
-  _login() async {
-    // 키보드 숨기기
-    if(_formKey.currentState!.validate()) {
-      FocusScope.of(context).requestFocus(FocusNode());
+  _googleLogin() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      // firebase 사용자 인증 & 사용자 등록
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-        String userId = await FirebaseAuth.instance.currentUser!.uid;
-        Get.offAll(() => MyApp2());
-      } on FirebaseException catch(e) {
-        logger.e(e);
-        String message = '';
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-        if(e.code == 'user-not-found') {
-          message = '사용자가 존재하지 않습니다.';
-        } else if(e.code == 'wrong-password') {
-          message = '비밀번호를 확인하세요.';
-        } else if(e.code == 'invalid-email') {
-          message = '이메일을 확인하세요.';
-        }
+    final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken
+    );
 
-        ScaffoldMessenger.of(context).showSnackBar(
+    try {
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      User user = await FirebaseAuth.instance.currentUser!;
+      String userId = user.uid;
+
+      CollectionReference userCollection = FirebaseFirestore.instance.collection('user');
+
+      print(userId);
+
+      userCollection.get().then((value) => {
+        value.docs.forEach((element) {
+          if(element.id == userId) {
+            print("Exists");
+            Get.offAll(() => MyApp2());
+          }
+        })});
+
+      Get.offAll(AdditionalInfoScreen());
+
+    } on FirebaseAuthException catch(e) {
+      logger.e(e);
+
+      ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(message),
+            content: Text("에러발생"),
             backgroundColor: Colors.deepOrange,
           )
-        );
-      }
+      );
     }
+  }
+
+  _kakaoLogin() async {
+
+  }
+
+  _naverLogin() async {
+
+  }
+
+  _emailLogin() async {
+    Get.offAll(() => EmailLoginScreen());
   }
 }
