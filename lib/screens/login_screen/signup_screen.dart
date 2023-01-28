@@ -36,7 +36,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Gender _gender = Gender.MAN;
 
-  String _imageFile = 'assets/images/main.png';
 
   File? userPickedImage;
 
@@ -253,7 +252,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Image(
                           width: 70.0,
                           height: 30.0,
-                          image: AssetImage('image/sailboat.png')),
+                          image: AssetImage('assets/logo/main/sailboat.png')),
                       const SizedBox(height: 20.0),
                       _nameWidget(),
                       const SizedBox(height: 20.0),
